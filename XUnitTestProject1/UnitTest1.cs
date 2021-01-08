@@ -36,11 +36,6 @@ namespace XUnitTestProject1
         [Fact]
         public void GetHashSymbolsTest()
         {
-            PasswordHasher.Init("укр_тест", 1);
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("укр_тест/[]*&^#@!$%,.}<>{:_-+=§₽¶妈妈", null));
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("", null));
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash(" ", null));
-
             PasswordHasher.Init("text", 1);
             Assert.NotNull(PasswordHasher.GetHash("укр_тест/[]*&^#@!$%,.}<>{:_-+=§₽¶妈妈", null));
             Assert.NotNull(PasswordHasher.GetHash("", null));
