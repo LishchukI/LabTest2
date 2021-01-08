@@ -14,8 +14,8 @@ namespace XUnitTestProject1
             Assert.Equal(PasswordHasher.GetHash("pass"), PasswordHasher.GetHash("pass", "init_salt", 7));
             Assert.NotEqual(PasswordHasher.GetHash("pass"), PasswordHasher.GetHash("pass", "salt", 1));
         }
-
-
+        
+        
         [Fact]
         public void GetHashTest()
         {
@@ -32,14 +32,20 @@ namespace XUnitTestProject1
             Assert.NotEmpty(PasswordHasher.GetHash("pass1", "salt1", 1));
             Assert.NotEqual(PasswordHasher.GetHash("pass2", "salt2", 2), PasswordHasher.GetHash("pass2", "salt2", 3));
         }
-
-
+        
         [Fact]
         public void GetHashSymbolsTest()
         {
+            PasswordHasher.Init("укр_тест", 1);
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("укр_тест/[]*&^#@!$%,.}<>{:_-+=§₽¶妈妈", null));
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("", null));
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash(" ", null));
+
+            PasswordHasher.Init("text", 1);
+            Assert.NotNull(PasswordHasher.GetHash("укр_тест/[]*&^#@!$%,.}<>{:_-+=§₽¶妈妈", null));
+            Assert.NotNull(PasswordHasher.GetHash("", null));
+            Assert.NotNull(PasswordHasher.GetHash(" ", null));
+
             Assert.NotNull(PasswordHasher.GetHash("укр_тест/[]*&^#@!$%,.}<>{:_-+=§₽¶妈妈", " "));
             Assert.NotNull(PasswordHasher.GetHash("", " "));
             Assert.NotNull(PasswordHasher.GetHash(" ", " "));
@@ -49,7 +55,7 @@ namespace XUnitTestProject1
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", ""));
             Assert.NotNull(PasswordHasher.GetHash("pass", "/[] * &^#@!$%,.}<>{:_-+=123"));
         }
-
+        
         [Fact]
         public void InitSymbolsTest()
         {
@@ -62,20 +68,20 @@ namespace XUnitTestProject1
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass"));
         }
 
-
+        
         [Fact]
         public void BoundaryValuesTest()
         {
-            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", 4294967295));
-            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", 0));
+            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MaxValue));
+            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MinValue));
         }
 
         /*
         [Fact]
         public void BoundaryValuesErrorTest()
         {
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", -1));
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", 4294967296));
+            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MinValue - 1));
+            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MaxValue + 1));
         }
         */
     }
