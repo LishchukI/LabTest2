@@ -74,10 +74,10 @@ namespace XUnitTestProject1
 
         /*
         [Fact]
-        public void BoundaryValuesTestError()
+        public void BoundaryValuesErrorTest()
         {
-            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MinValue - 1));
-            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MaxValue + 1));
+            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MinValue - 1));
+            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MaxValue + 1));
         }
         */
     }
