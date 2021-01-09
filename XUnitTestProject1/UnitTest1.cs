@@ -32,7 +32,7 @@ namespace XUnitTestProject1
             Assert.NotEmpty(PasswordHasher.GetHash("pass1", "salt1", 1));
             Assert.NotEqual(PasswordHasher.GetHash("pass2", "salt2", 2), PasswordHasher.GetHash("pass2", "salt2", 3));
         }
-        
+
         [Fact]
         public void GetHashSymbolsTest()
         {
@@ -50,7 +50,7 @@ namespace XUnitTestProject1
             Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", ""));
             Assert.NotNull(PasswordHasher.GetHash("pass", "/[] * &^#@!$%,.}<>{:_-+=123"));
         }
-        
+
         [Fact]
         public void InitSymbolsTest()
         {
@@ -69,14 +69,15 @@ namespace XUnitTestProject1
         {
             Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MaxValue));
             Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MinValue));
+            
         }
 
         /*
         [Fact]
-        public void BoundaryValuesErrorTest()
+        public void BoundaryValuesTestError()
         {
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MinValue - 1));
-            Assert.ThrowsAny<OverflowException>(() => PasswordHasher.GetHash("pass", "salt", uint.MaxValue + 1));
+            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MinValue - 1));
+            Assert.NotNull(PasswordHasher.GetHash("pass", "salt", uint.MaxValue + 1));
         }
         */
     }
